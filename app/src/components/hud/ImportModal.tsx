@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AUDIO_SOURCE } from "@/components/audio/sourceControls/common";
 import { useAppStateActions, useAudio } from "@/lib/appState";
 
@@ -7,6 +7,8 @@ export const ImportModal = () => {
   const { setAudio } = useAppStateActions();
 
   const [open, setOpen] = useState(true);
+  const [demoLoading, setDemoLoading] = useState(false);
+  const [demoError, setDemoError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -17,6 +19,37 @@ export const ImportModal = () => {
   const fileName = useMemo(() => {
     return file?.name ?? "未选择";
   }, [file]);
+
+  const demoUrl = useMemo(() => {
+    // Works with Vite base path deployments.
+    return new URL(`${import.meta.env.BASE_URL}demo/demo.mp4`, window.location.origin)
+      .toString();
+  }, []);
+
+  const playDemo = useCallback(async () => {
+    setDemoError(null);
+    setDemoLoading(true);
+    try {
+      const res = await fetch(demoUrl);
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+
+      const blob = await res.blob();
+      const demoFile = new File([blob], "demo.mp4", {
+        type: blob.type || "video/mp4",
+      });
+      setAudio({ source: AUDIO_SOURCE.FILE_UPLOAD, file: demoFile });
+      setOpen(false);
+    } catch (e) {
+      console.error("Failed to load demo mp4", e);
+      setDemoError(
+        "示例文件加载失败：请确认已将 demo.mp4 放到 app/public/demo/demo.mp4 并重新部署。",
+      );
+    } finally {
+      setDemoLoading(false);
+    }
+  }, [demoUrl, setAudio]);
 
   if (!open) return null;
 
@@ -42,6 +75,7 @@ export const ImportModal = () => {
           <div className="text-xs text-white/60">
             提示：部分浏览器会阻止自动播放，导入后如没有反应，请点击一次画面或点击播放。
           </div>
+          {demoError && <div className="text-xs text-red-200">{demoError}</div>}
         </div>
 
         <div className="mt-4 rounded-xl border border-white/10 bg-white/5 p-3 text-xs text-white/70">
@@ -66,6 +100,13 @@ export const ImportModal = () => {
             onClick={() => setOpen(false)}
           >
             稍后再说
+          </button>
+          <button
+            className="rounded-lg border border-white/10 bg-emerald-500 px-4 py-2 text-sm font-semibold text-black hover:bg-emerald-400 disabled:opacity-60"
+            disabled={demoLoading}
+            onClick={playDemo}
+          >
+            {demoLoading ? "正在加载示例..." : "播放示例 demo"}
           </button>
           <button
             className="rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-black hover:bg-sky-400"
