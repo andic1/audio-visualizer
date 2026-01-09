@@ -77,11 +77,11 @@ npm run dev
 
 ### 方式 B：仓库自带 demo.mp4（可选）
 
-若你希望“打开就能演示”，可以在 `app/public/` 下放一个体积较小的 `demo.mp4`，并在 UI 中提供“一键播放示例”。
+若你希望“打开就能演示”，可以在 `app/public/` 下放一个体积较小的 `demo.mp3`，并在 UI 中提供“一键播放示例”。
 
 推荐放置路径：
 
-- `app/public/demo/demo.mp4`
+- `app/public/demo/demo.mp3`
 ### 构建与发布
 
 在 `app/` 目录：

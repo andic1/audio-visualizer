@@ -21,8 +21,8 @@ export const ImportModal = () => {
   }, [file]);
 
   const demoUrl = useMemo(() => {
-    // Works with Vite base path deployments.
-    return new URL(`${import.meta.env.BASE_URL}demo/demo.mp4`, window.location.origin)
+    // Works with Vite base path deployments. 默认示例使用 mp3 文件。
+    return new URL(`${import.meta.env.BASE_URL}demo/demo.mp3`, window.location.origin)
       .toString();
   }, []);
 
@@ -36,15 +36,15 @@ export const ImportModal = () => {
       }
 
       const blob = await res.blob();
-      const demoFile = new File([blob], "demo.mp4", {
-        type: blob.type || "video/mp4",
+      const demoFile = new File([blob], "demo.mp3", {
+        type: blob.type || "audio/mpeg",
       });
       setAudio({ source: AUDIO_SOURCE.FILE_UPLOAD, file: demoFile });
       setOpen(false);
     } catch (e) {
-      console.error("Failed to load demo mp4", e);
+      console.error("Failed to load demo mp3", e);
       setDemoError(
-        "示例文件加载失败：请确认已将 demo.mp4 放到 app/public/demo/demo.mp4 并重新部署。",
+        "示例文件加载失败：请确认已将 demo.mp3 放到 app/public/demo/demo.mp3 并重新部署。",
       );
     } finally {
       setDemoLoading(false);
@@ -110,7 +110,19 @@ export const ImportModal = () => {
           </button>
           <button
             className="rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-black hover:bg-sky-400"
-            onClick={() => inputRef.current?.click()}
+            onClick={() => {
+              // 如果用户还没有选择文件，先友好提示可以直接体验示例。
+              if (!file) {
+                const useDemo = window.confirm(
+                  "如果只是想快速体验，推荐先点击“播放示例 demo”。\n\n是否改为播放示例 demo？",
+                );
+                if (useDemo) {
+                  void playDemo();
+                  return;
+                }
+              }
+              inputRef.current?.click();
+            }}
           >
             选择文件导入
           </button>
