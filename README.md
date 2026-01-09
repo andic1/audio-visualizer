@@ -1,23 +1,113 @@
-# r3f-audio-visualizer ![Release](https://github.com/dcyoung/r3f-audio-visualizer/actions/workflows/publish.yml/badge.svg)
+<img width="7534" height="844" alt="image" src="https://github.com/user-attachments/assets/5c184d94-b699-4e37-9cec-90512b5e50bc" /># 交互式音频可视化实验室
 
-An interactive audio visualizer built with react and THREE.js.
+一个面向展示与互动体验的 **音频/视频音轨可视化实验室**：导入本地 `mp4/mp3/wav` 后，系统实时分析音频能量与频谱，并用 Three.js / R3F 在 3D 场景中生成动态视觉。
 
-[CLICK HERE FOR A LIVE DEMO](https://dcyoung.github.io/r3f-audio-visualizer/)
+本项目由阿里云ESA提供加速、计算和保护
+<img width="7534" height="844" alt="image" src="https://github.com/user-attachments/assets/2345ab3f-bb22-46b4-a577-bf8af10f6add" />
+
+
+## 项目介绍
+
+这不是一个“播放音乐 + 随机特效”的小工具，而是一个可以被理解、可被操作的 **声音可视化实验平台**。
+项目将“音乐”拆成可观测的信号（能量、节奏、频段分布），并把它们映射成不同的视觉语言：
+
+- **同一段音频**，通过“实验模式”切换成三种风格：
+  - **经典可视化**：更强调结构与秩序
+  - **节奏诊断**：更强调鼓点与低频冲击
+  - **情绪光场**：更强调氛围、流动与色彩
+- **输入友好**：支持导入 `mp4`（读取音轨）与常见音频格式，贴合比赛现场评委的素材使用习惯。
+- **交互完整**：首次进入有说明与导入引导；若浏览器阻止自动播放，会给出“一键开始播放”的明确入口。
 
 ---
 
-[![docs/demo-2024-1-12.gif](docs/demo-2024-1-12.gif)](https://dcyoung.github.io/r3f-audio-visualizer/)
+## 作品亮点
+
+- **创意卓越**：用“实验模式”把同一音乐映射成三种风格叙事（结构化节奏 / 氛围流动 / 几何秩序）。
+- **应用价值**：适用于音乐可视化展示、短视频二创、教学演示（频谱/能量概念可视化）。
+- **技术探索**：浏览器端实时分析（FFT/能量追踪）+ R3F 场景生成 + 交互式参数面板。
 
 ---
 
-## Quickstart
+## 交互与功能
+
+- **单入口本地导入**：不依赖外部平台与权限（更适合比赛现场）。
+- **自动引导 + 使用说明**：首次进入会出现导入引导与说明弹窗。
+- **自动播放兜底**：若浏览器阻止自动播放，会出现“点击开始播放”按钮。
+- **实验模式**：经典可视化 / 节奏诊断 / 情绪光场（同一音频，不同视觉语言）。
+
+## 快速开始
+
+在项目根目录执行：
 
 ```bash
-git clone https://github.com/dcyoung/r3f-audio-visualizer.git
-
-cd r3f-audio-visualizer
-
-cd app/
-pnpm i
-pnpm dev
+cd app
+npm install
+npm run dev
 ```
+
+打开终端输出的本地地址即可。
+
+---
+
+## 使用方式
+
+1. 进入页面后会自动弹出“导入文件”窗口。
+2. 选择本地 `mp4/mp3/wav` 文件（**mp4 会读取音轨**）。
+3. 若浏览器阻止自动播放，左上角会出现 **“点击开始播放”**，点一次即可解锁声音。
+4. 底部切换 **实验模式**，左上 HUD 会显示当前模式与能量条。
+5. 右下角打开设置面板，可调整调色盘、背景、镜头等。
+
+---
+
+## 实验模式说明
+
+- **经典可视化**：更克制、结构化的几何秩序，适合展示“声音 → 形状”的基础映射。
+- **节奏诊断**：更强调低频/鼓点能量，视觉更“冲击”，适合节奏型音乐。
+- **情绪光场**：更柔和的流动与配色，强调氛围与情绪变化。
+
+---
+
+#
+
+## 部署到阿里云 ESA Pages（推荐）
+
+本项目是纯前端静态站点，非常适合 ESA Pages。
+
+### 方式 A（推荐）：仅支持用户本地导入
+
+- 优点：部署包更小、加载更快、不受静态资源体积影响。
+- 适合：比赛现场评委自带素材或你现场提供素材。
+
+### 方式 B：仓库自带 demo.mp4（可选）
+
+若你希望“打开就能演示”，可以在 `app/public/` 下放一个体积较小的 `demo.mp4`，并在 UI 中提供“一键播放示例”。
+
+### 构建与发布
+
+在 `app/` 目录：
+
+```bash
+npm install
+npm run build
+```
+
+构建产物在：
+
+- `app/dist`
+
+将该目录作为 ESA Pages 的发布目录即可。
+
+
+
+## 技术栈
+
+- React + TypeScript + Vite
+- Three.js + React Three Fiber (R3F)
+- Zustand（状态管理）
+- FFT / 能量追踪（音频分析）
+
+---
+
+## License
+
+本仓库用于比赛展示与学习交流。
