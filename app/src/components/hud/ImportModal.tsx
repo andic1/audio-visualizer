@@ -21,8 +21,8 @@ export const ImportModal = () => {
   }, [file]);
 
   const demoUrl = useMemo(() => {
-    // Works with Vite base path deployments. 默认示例使用 mp3 文件。
-    return new URL(`${import.meta.env.BASE_URL}demo/demo.mp3`, window.location.origin)
+    // Works with Vite base path deployments. 默认示例使用 mp3 文件，路径为 app/public/demo.mp3。
+    return new URL(`${import.meta.env.BASE_URL}demo.mp3`, window.location.origin)
       .toString();
   }, []);
 
@@ -44,7 +44,7 @@ export const ImportModal = () => {
     } catch (e) {
       console.error("Failed to load demo mp3", e);
       setDemoError(
-        "示例文件加载失败：请确认已将 demo.mp3 放到 app/public/demo/demo.mp3 并重新部署。",
+        "示例文件加载失败：请确认已将 demo.mp3 放到 app/public/demo.mp3 并重新部署。",
       );
     } finally {
       setDemoLoading(false);
