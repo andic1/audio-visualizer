@@ -10,6 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/r3f-audio-visualizer/",
+  // 部署在域名根路径时，资源前缀使用 "/"
+  base: "/",
   assetsInclude: ["**/*.glb"],
 });
