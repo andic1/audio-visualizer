@@ -1,4 +1,4 @@
-<img width="7534" height="844" alt="image" src="https://github.com/user-attachments/assets/5c184d94-b699-4e37-9cec-90512b5e50bc" /># 交互式音频可视化实验室
+# 交互式音频可视化实验室
 
 一个面向展示与互动体验的 **音频/视频音轨可视化实验室**：导入本地 `mp4/mp3/wav` 后，系统实时分析音频能量与频谱，并用 Three.js / R3F 在 3D 场景中生成动态视觉。
 
