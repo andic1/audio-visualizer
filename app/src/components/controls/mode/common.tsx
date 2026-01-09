@@ -55,6 +55,10 @@ export const AudioSourceControls = () => {
     case AUDIO_SOURCE.FILE_UPLOAD:
       return <FileUploadControls />;
     default:
-      return source satisfies never;
+      return (
+        <div className="text-xs text-white/70">
+          当前版本仅支持“本地上传”。请在上方选择“本地上传”并导入文件。
+        </div>
+      );
   }
 };
